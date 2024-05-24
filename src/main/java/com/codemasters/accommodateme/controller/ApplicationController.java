@@ -1,0 +1,80 @@
+package com.codemasters.accommodateme.controller;
+
+import com.codemasters.accommodateme.entity.Application;
+import com.codemasters.accommodateme.entity.User;
+
+
+import com.codemasters.accommodateme.service.authService.OurUserDetailsService;
+import com.codemasters.accommodateme.service.implementation.ApplicationService;
+import jakarta.annotation.security.RolesAllowed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@Slf4j
+@CrossOrigin("http://localhost:5173")
+@RequestMapping("/auth")
+public class ApplicationController {
+
+    private final ApplicationService applicationService;
+    private final OurUserDetailsService ourUserDetailsService;
+
+
+    @Autowired
+    public ApplicationController(ApplicationService applicationService, OurUserDetailsService ourUserDetailsService) {
+        this.applicationService = applicationService;
+        this.ourUserDetailsService = ourUserDetailsService;
+    }
+
+    @PostMapping("/createApplication/{studentId}")
+//    @RolesAllowed("ROLE_USER")
+    public ResponseEntity<String> createApplication(@PathVariable("studentId") Long studentId, @RequestBody Application application) {
+        applicationService.createApplication(studentId,application);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Application successfully sent!");
+    }
+
+    @GetMapping("/getApplications/{id}")
+    public List<Application> getStudentApplications(@PathVariable Long id){
+
+        return  applicationService.getApplicationsByStudentId(id);
+    }
+
+
+//    @GetMapping("/getStudentApplications/{studentId}")
+//    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+//    public ResponseEntity<String> getStudentApplications(@PathVariable("studentId") Integer studentId) {
+//
+//        List<Application> applications = ourUserDetailsService.getApplicationsForStudent(studentId);
+//
+//        return ResponseEntity.ok("GET: getStudentApplications ");
+//
+//    }
+
+
+    @GetMapping("/getAll")
+//    @RolesAllowed("ROLE_ADMIN")
+    public ResponseEntity<List<Application>> getAllApplications() {
+        List<Application> applications = applicationService.getAllApplications();
+        return new ResponseEntity<>(applications, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+//    @RolesAllowed("ROLE_ADMIN")
+    public ResponseEntity<String> deleteApplicationById(@PathVariable("id") Long id) {
+        applicationService.deleteApplicationById(id);
+        return ResponseEntity.ok("Application successfully deleted");
+
+    }
+
+
+
+
+
+
+}
