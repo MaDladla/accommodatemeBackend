@@ -31,7 +31,7 @@ public interface ResidenceService {
     List<ResidenceDto> acceptedResidence(String status);
 
 
-    List<ResidenceDto> pendingResidence(String status);
+    List<ResidenceDto> pendingResidences(String status);
 
     List<ResidenceDto> rejectedResidence(String status);
 }

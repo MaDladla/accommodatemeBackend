@@ -123,7 +123,7 @@ public class ResidenceController {
 
     @RolesAllowed("ROLE_SYSADMIN")
     @GetMapping("/pending")
-    public ResponseEntity<List<ResidenceDto>> pendingResidence(@RequestParam String status) {
+    public ResponseEntity<List<ResidenceDto>> pendingResidences(@RequestParam String status) {
         try {
             List<ResidenceDto> residences = residenceService.acceptedResidence(status);
             return ResponseEntity.ok(residences);

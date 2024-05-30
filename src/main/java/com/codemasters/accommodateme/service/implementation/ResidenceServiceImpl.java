@@ -152,7 +152,7 @@ public class ResidenceServiceImpl implements ResidenceService {
     }
 
     @Override
-    public List<ResidenceDto> pendingResidence(String status) {
+    public List<ResidenceDto> pendingResidences(String status) {
         if (!"PENDING".equals(status)) {
             throw new EntityNotFoundException("No pending residence");
         }
