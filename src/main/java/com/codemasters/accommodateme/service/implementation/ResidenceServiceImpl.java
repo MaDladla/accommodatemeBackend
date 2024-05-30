@@ -82,7 +82,7 @@ public class ResidenceServiceImpl implements ResidenceService {
     @Override
     public Residence findById(Long id) {
         return residenceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Residence not found!"));
+                .orElseThrow(() -> new EntityNotFoundException("Residence not found!"));
     }
 
     @Override
@@ -107,6 +107,18 @@ public class ResidenceServiceImpl implements ResidenceService {
                 .orElseThrow(() -> new EntityNotFoundException("Residence not found with ID: " + resId));
 
         residence.setStatus("ACCEPTED");
+
+        Residence updatedResidence = residenceRepository.save(residence);
+
+        return convertToDTO(updatedResidence);
+    }
+
+    @Override
+    public ResidenceDto pendingResidence(Long resId, String status) {
+        Residence residence = residenceRepository.findById(resId)
+                .orElseThrow(() -> new EntityNotFoundException("Residence not found with ID: " + resId));
+
+        residence.setStatus("PENDING");
 
         Residence updatedResidence = residenceRepository.save(residence);
 
@@ -139,11 +151,24 @@ public class ResidenceServiceImpl implements ResidenceService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ResidenceDto> pendingResidence(String status) {
+        if (!"PENDING".equals(status)) {
+            throw new EntityNotFoundException("No pending residence");
+        }
+
+        List<Residence> residences = residenceRepository.findByStatus(status);
+
+        return residences.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<ResidenceDto> rejectedResidence(String status) {
         if (!"REJECTED".equals(status)) {
-            throw new RuntimeException("No accepted residence");
+            throw new EntityNotFoundException("No accepted residence");
         }
 
         List<Residence> residences = residenceRepository.findByStatus(status);

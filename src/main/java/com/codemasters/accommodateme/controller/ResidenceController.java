@@ -89,6 +89,17 @@ public class ResidenceController {
     }
 
     @RolesAllowed("ROLE_SYSADMIN")
+    @PatchMapping("/pending/{resId}")
+    public ResponseEntity<ResidenceDto> pendingResidence(@PathVariable Long resId, @RequestParam String status) {
+        try {
+            ResidenceDto residenceDto = residenceService.acceptResidence(resId, status);
+            return ResponseEntity.ok(residenceDto);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @RolesAllowed("ROLE_SYSADMIN")
     @PatchMapping("/reject/{resId}")
     public ResponseEntity<ResidenceDto> rejectResidence(@PathVariable Long resId, @RequestParam String status) {
         try {
@@ -102,6 +113,17 @@ public class ResidenceController {
     @RolesAllowed("ROLE_SYSADMIN")
     @GetMapping("/accepted")
     public ResponseEntity<List<ResidenceDto>> acceptedResidence(@RequestParam String status) {
+        try {
+            List<ResidenceDto> residences = residenceService.acceptedResidence(status);
+            return ResponseEntity.ok(residences);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @RolesAllowed("ROLE_SYSADMIN")
+    @GetMapping("/pending")
+    public ResponseEntity<List<ResidenceDto>> pendingResidence(@RequestParam String status) {
         try {
             List<ResidenceDto> residences = residenceService.acceptedResidence(status);
             return ResponseEntity.ok(residences);

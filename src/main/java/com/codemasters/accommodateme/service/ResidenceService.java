@@ -24,9 +24,14 @@ public interface ResidenceService {
 
     ResidenceDto acceptResidence(Long resId,String status);
 
+    ResidenceDto pendingResidence(Long resId,String status);
+
     ResidenceDto rejectResidence(Long resId,String status);
 
     List<ResidenceDto> acceptedResidence(String status);
+
+
+    List<ResidenceDto> pendingResidence(String status);
 
     List<ResidenceDto> rejectedResidence(String status);
 }
