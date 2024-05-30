@@ -16,12 +16,11 @@ public class Announcement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "announcement_id")
-    private Integer announcementId;
+    private Long announcementId;
 
-    @Column(nullable = false)
-    private String title;
-    @Column(nullable = false)
-    private String description;
+    private String heading;
+    private String body;
+    private String imageUrl;
 
     @Column(name = "create_at", columnDefinition = "TIMESTAMP")
     private Instant createdAt;

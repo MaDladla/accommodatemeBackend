@@ -23,7 +23,8 @@ public class Issues {
     private String fullName;
     private String roomNo;
     private String description;
-    private String status;
+    private String status = "REPORTED";
+    private String priority = "MEDIUM";
 
     @Column(name = "reported_at", columnDefinition = "TIMESTAMP")
     private Date reportedAt;

@@ -20,8 +20,9 @@ public class Room {
     @Column(name = "room_id")
     private Long roomId;
 
-    private Integer roomNumber;
+    private String roomNumber;
     private String roomType;
+    private String roomStatus = "AVAILABLE";
 
     @JsonIgnore
     @OneToMany(mappedBy = "room")
@@ -30,6 +31,7 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "residence_id")
     private Residence residence;
+
 
 }
 

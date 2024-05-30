@@ -20,12 +20,13 @@ public class Location {
 
     private String city;
     private String province;
+    private String area;
     private String streetName;
     private int zipCode;
     private int streetNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "residence_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "residence_id", referencedColumnName = "residence_id", nullable = false)
     private Residence residence;
 
 }

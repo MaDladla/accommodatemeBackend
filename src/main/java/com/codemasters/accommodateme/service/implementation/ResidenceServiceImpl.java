@@ -168,8 +168,8 @@ public class ResidenceServiceImpl implements ResidenceService {
         residenceDto.setImages(residence.getImages());
         residenceDto.setNsfasDocument(residence.getNsfasDocument());
         residenceDto.setUser(residence.getUsers().getEmail());
-//        residenceDto.setIssues(residence.getIssues());
-//        residenceDto.setLocation(residence.getLocation());
+        residenceDto.setIssues(residence.getIssues());
+        residenceDto.setLocation(residence.getLocation());
         residenceDto.setAppliedAt(residence.getAppliedAt());
 
         return residenceDto;

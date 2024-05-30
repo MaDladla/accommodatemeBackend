@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class Residence {
 
     private String nsfasDocument;
 
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "admin_id", referencedColumnName = "id", nullable = false)
@@ -69,6 +72,7 @@ public class Residence {
     private List<Review> reviews;
 
     @Column(name = "applied_at", columnDefinition = "TIMESTAMP")
+    @DateTimeFormat(pattern = "yyyy,MM,dd HH:mm:ss")
     private Instant appliedAt;
 
     public Residence() {
