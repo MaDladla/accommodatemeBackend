@@ -8,17 +8,12 @@ import java.util.Optional;
 
 public interface LocationService {
 
-    Location addLocation(Location location, Long resId);
+    Location addLocation(Location location, Long resId,Long adminId);
 
     List<LocationDto> getAllLocations();
 
     Optional<LocationDto> getLocationById(Long id);
 
-    List<LocationDto> getLocationByStreetName(String streetName);
+    Location updateLocation(Location location, Long id, Long resId,Long adminId);
 
-    List<LocationDto> getLocationByArea(String area);
-
-    Location updateLocation(Location location, Long id, Long resId);
-
-    List<LocationDto> getLocationByCity(String city);
 }

@@ -18,9 +18,9 @@ public class LocationController {
     private final LocationService locationService;
 
     @RolesAllowed("ROLE_ADMIN")
-    @PostMapping("/save/{resId}")
-    public ResponseEntity<Location> addLocation(@RequestBody Location location, @PathVariable Long resId) {
-        Location newLocation = locationService.addLocation(location, resId);
+    @PostMapping("/save/{resId}/{adminId}")
+    public ResponseEntity<Location> addLocation(@RequestBody Location location, @PathVariable Long resId,@PathVariable Long adminId) {
+        Location newLocation = locationService.addLocation(location, resId, adminId);
         return ResponseEntity.ok(newLocation);
     }
 
@@ -39,31 +39,12 @@ public class LocationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//    @RolesAllowed("ROLE_ADMIN")
-//    @GetMapping("/findByArea")
-//    public ResponseEntity<List<LocationDto>> findLocationByArea(@RequestParam String area) {
-//        List<LocationDto> locations = locationService.getLocationByArea(area);
-//        if (locations.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.ok(locations);
-//    }
-
-//    @RolesAllowed("ROLE_ADMIN")
-//    @GetMapping("/findByStreetName")
-//    public ResponseEntity<List<LocationDto>> findLocationByStreetName(@RequestParam String streetName) {
-//        List<LocationDto> locations = locationService.getLocationByStreetName(streetName);
-//        if (locations.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.ok(locations);
-//    }
 
     @RolesAllowed("ROLE_ADMIN")
-    @PutMapping("/update/{id}/resId/{resId}")
-    public ResponseEntity<Location> updateLocation(@RequestBody Location location, @PathVariable Long id, @PathVariable Long resId) {
+    @PutMapping("/update/{id}/resId/{resId}/{adminId}")
+    public ResponseEntity<Location> updateLocation(@RequestBody Location location, @PathVariable Long id, @PathVariable Long resId,@PathVariable Long adminId) {
         try {
-            Location updatedLocation = locationService.updateLocation(location, id, resId);
+            Location updatedLocation = locationService.updateLocation(location, id, resId,adminId);
             return ResponseEntity.ok(updatedLocation);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
@@ -71,14 +52,4 @@ public class LocationController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-//    @RolesAllowed("ROLE_ADMIN")
-//    @GetMapping("/findbyCity")
-//    public ResponseEntity<List<LocationDto>> findLocationByCity(@RequestParam String city) {
-//        List<LocationDto> locations = locationService.getLocationByCity(city);
-//        if (locations.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.ok(locations);
-//    }
 }
