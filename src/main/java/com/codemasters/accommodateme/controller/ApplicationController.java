@@ -1,5 +1,6 @@
 package com.codemasters.accommodateme.controller;
 
+import com.codemasters.accommodateme.dto.ApplicationDto;
 import com.codemasters.accommodateme.entity.Application;
 import com.codemasters.accommodateme.entity.User;
 
@@ -76,9 +77,9 @@ public class ApplicationController {
     @RolesAllowed("ROLE_ADMIN")
 
     @PatchMapping("/{applicationId}/accept")
-    public ResponseEntity<Application> acceptApplication(@PathVariable Long applicationId) {
+    public ResponseEntity<ApplicationDto> acceptApplication(@PathVariable Long applicationId) {
         try {
-            Application application = applicationService.acceptApplication(applicationId);
+            ApplicationDto application = applicationService.acceptApplication(applicationId);
             return ResponseEntity.ok(application);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -89,14 +90,36 @@ public class ApplicationController {
 
     @RolesAllowed("ROLE_ADMIN")
     @PatchMapping("/{applicationId}/reject")
-    public ResponseEntity<Application> rejectApplication(@PathVariable Long applicationId, @RequestParam String reason) {
+    public ResponseEntity<ApplicationDto> rejectApplication(@PathVariable Long applicationId, @RequestParam String reason) {
         try {
-            Application application = applicationService.rejectApplication(applicationId, reason);
+            ApplicationDto application = applicationService.rejectApplication(applicationId, reason);
             return ResponseEntity.ok(application);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @RolesAllowed("ROLE_ADMIN")
+    @GetMapping("/tenants")
+    public ResponseEntity<List<ApplicationDto>> getAcceptedUsersByResidence() {
+        try {
+            List<ApplicationDto> acceptedUsers = applicationService.getAcceptedUsersByResidence();
+            return ResponseEntity.ok(acceptedUsers);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @RolesAllowed("ROLE_ADMIN")
+    @GetMapping("/search")
+    public ResponseEntity<List<ApplicationDto>> searchApplications(@RequestParam String search) {
+        try {
+            List<ApplicationDto> applications = applicationService.searchApplications(search);
+            return ResponseEntity.ok(applications);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
