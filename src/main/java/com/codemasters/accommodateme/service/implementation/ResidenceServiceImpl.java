@@ -168,12 +168,21 @@ public class ResidenceServiceImpl implements ResidenceService {
     @Override
     public List<ResidenceDto> rejectedResidence(String status) {
         if (!"REJECTED".equals(status)) {
-            throw new EntityNotFoundException("No accepted residence");
+            throw new EntityNotFoundException("No rejected residence");
         }
 
         List<Residence> residences = residenceRepository.findByStatus(status);
 
         return residences.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    public List<ResidenceDto> searchResidences(String search) {
+        List<Residence> applications = residenceRepository.searchByResidenceNameOrLocationArea(search);
+        if (applications.isEmpty()) {
+            throw new EntityNotFoundException("No residence found with search term: " + search);
+        }
+        return applications.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }

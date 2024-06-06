@@ -1,5 +1,6 @@
 package com.codemasters.accommodateme.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Announcement {
     @JoinColumn(name = "adminId", referencedColumnName = "id", nullable = false)
     private User users;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "resId", referencedColumnName = "residence_id", nullable = false)
     private Residence residence;

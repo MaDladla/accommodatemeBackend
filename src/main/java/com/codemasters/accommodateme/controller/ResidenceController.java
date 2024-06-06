@@ -44,8 +44,9 @@ public class ResidenceController {
         }
     }
 
-    @RolesAllowed("ROLE_SYSADMIN")
-    @GetMapping("/getAll")
+//    @RolesAllowed("ROLE_SYSADMIN")
+    @RolesAllowed("ROLE_ADMIN")
+    @GetMapping("/get/all")
     public ResponseEntity<List<Residence>> findAllResidences() {
         List<Residence> residences = residenceService.findAllResidences();
         return ResponseEntity.ok(residences);
@@ -140,6 +141,16 @@ public class ResidenceController {
             return ResponseEntity.ok(residences);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ResidenceDto>> searchResidences(@RequestParam String search) {
+        try {
+            List<ResidenceDto> residences = residenceService.searchResidences(search);
+            return ResponseEntity.ok(residences);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 

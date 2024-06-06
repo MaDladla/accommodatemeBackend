@@ -89,6 +89,7 @@ public class Application {
     @JoinColumn(name = "id", referencedColumnName = "id")
     private User users;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "residence_id", referencedColumnName = "residence_id",nullable = true)
     private Residence residence;

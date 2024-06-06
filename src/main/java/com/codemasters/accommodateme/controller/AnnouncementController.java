@@ -5,6 +5,7 @@ import com.codemasters.accommodateme.entity.Announcement;
 import com.codemasters.accommodateme.exception.EntityNotFoundException;
 import com.codemasters.accommodateme.service.AnnouncemenentService;
 import jakarta.annotation.security.RolesAllowed;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auth/announcement")
+@AllArgsConstructor
 public class AnnouncementController {
 
     private final AnnouncemenentService announcementsService;
-
-    @Autowired
-    public AnnouncementController(AnnouncemenentService announcementsService) {
-        this.announcementsService = announcementsService;
-    }
 
     @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/save/{adminId}/{resId}")
