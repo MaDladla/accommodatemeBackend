@@ -73,9 +73,11 @@ public class Application {
     @Column(length = 65535)
     private String studentStatus;
     private String responseMessage;
-    private String status;
+    private String status = "PENDING";
     @Column(name = "applied_at", columnDefinition = "TIMESTAMP")
     private Date appliedAt;
+    @Column(length = 65535)
+    private String rejectionReason;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

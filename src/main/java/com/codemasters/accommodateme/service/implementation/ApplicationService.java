@@ -52,4 +52,20 @@ public class ApplicationService {
 
         return "Application successfully deleted";
     }
+
+    public Application acceptApplication(Long applicationId) {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new ApplicationNotFoundException("Application not found with id " + applicationId));
+        application.setStatus("ACCEPTED");
+        return applicationRepository.save(application);
+    }
+
+    public Application rejectApplication(Long applicationId, String reason) {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new ApplicationNotFoundException("Application not found with id " + applicationId));
+        application.setStatus("REJECTED");
+        application.setRejectionReason(reason);
+        return applicationRepository.save(application);
+    }
+
 }

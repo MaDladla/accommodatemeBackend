@@ -9,6 +9,5 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<Application,Long> {
     List<Application> findAllByUsersId(Long id);
     List<Application> findByUsersId(Long userId);
-
-
+    List<Application> findByStatus(String status);
 }

@@ -4,6 +4,7 @@ import com.codemasters.accommodateme.entity.Application;
 import com.codemasters.accommodateme.entity.User;
 
 
+import com.codemasters.accommodateme.exception.EntityNotFoundException;
 import com.codemasters.accommodateme.service.authService.OurUserDetailsService;
 import com.codemasters.accommodateme.service.implementation.ApplicationService;
 import jakarta.annotation.security.RolesAllowed;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @RestController
 @Slf4j
 @CrossOrigin("http://localhost:5173")
-@RequestMapping("/auth")
+@RequestMapping("/auth/application")
 public class ApplicationController {
 
     private final ApplicationService applicationService;
@@ -72,9 +73,31 @@ public class ApplicationController {
 
     }
 
+    @RolesAllowed("ROLE_ADMIN")
 
+    @PatchMapping("/{applicationId}/accept")
+    public ResponseEntity<Application> acceptApplication(@PathVariable Long applicationId) {
+        try {
+            Application application = applicationService.acceptApplication(applicationId);
+            return ResponseEntity.ok(application);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
-
-
+    @RolesAllowed("ROLE_ADMIN")
+    @PatchMapping("/{applicationId}/reject")
+    public ResponseEntity<Application> rejectApplication(@PathVariable Long applicationId, @RequestParam String reason) {
+        try {
+            Application application = applicationService.rejectApplication(applicationId, reason);
+            return ResponseEntity.ok(application);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
 }
